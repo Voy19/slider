@@ -6,47 +6,76 @@ window.onload = function () {
          this.butPrev = obj.butPrev;
          this.butNext = obj.butNext;
          this.animation = typeof obj.animation == 'function' ? obj.animation() : obj.animation;
+         // this.animation = obj.animation;
          this.auto = obj.auto || false;
          this.interval = obj.interval || 2000;
          this.i = 0;
+         this.dots = document.querySelector('.dots');
          this.width = this.items[0].style.width;
          this.butPrev.addEventListener('click', this.prev.bind(this));
          this.butNext.addEventListener('click', this.next.bind(this));
+         this.carouselSlider = document.querySelector('.carousel-slider');
+         if (this.items) {
+            this.createDots();
+            this.dot = document.querySelectorAll('.dot');
+            this.dot[0].classList.add('active');
+            for (let i = 0; i < this.dot.length; i++) {
+               this.dot[i].addEventListener('click', function () {
+                  this.dotNavigation(i);
+                  this.i = i;
+               }.bind(this));
+            }
+         }
+
          if (this.auto) {
             setInterval(this.next.bind(this), this.interval);
          }
       }
 
       prev() {
-         this.move(-1)
+         this.move(-1);
       };
 
       next() {
          this.move(1);
       };
 
-      // move(a) {
-      //    this.items[this.i].classList.remove('active');
-      //    this.i += a;
-      //    if (this.i < 0) {
-      //       this.i = this.items.length - 1;
-      //    } else if (this.i >= this.items.length) {
-      //       this.i = 0;
-      //    }
-      //    this.items[this.i].classList.add('active');
-      // }
+      move(a) {
+         this.animation(a);
+      }
 
       move(a) {
-         // this.items[this.i].style.left = (this.width * direction);
-
-         this.items[this.i].style.left = 0;
+         this.items[this.i].classList.remove('active');
+         this.dot[this.i].classList.remove('active');
          this.i += a;
+         this.carouselSlider.style.left = -this.items[0].offsetWidth * (this.i) + 'px';
          if (this.i < 0) {
             this.i = this.items.length - 1;
+            this.carouselSlider.style.left = -this.items[0].offsetWidth * this.items.length + this.items[0].offsetWidth + 'px';
          } else if (this.i >= this.items.length) {
             this.i = 0;
+            this.carouselSlider.style.left = 0 + 'px';
          }
-         this.items[this.i].style.left = '100%';
+         this.dot[this.i].classList.add('active');
+         this.items[this.i].classList.add('active');
+      }
+
+      createDots() {
+         for (let i = 0; i < this.items.length; i++) {
+            let element = document.createElement('div');
+            element.className = 'dot';
+            this.dots.appendChild(element);
+         }
+      }
+
+      dotNavigation(item) {
+         for (let i = 0; i < this.items.length; i++) {
+            this.dot[i].classList.remove('active');
+            this.items[i].classList.remove('active');
+         }
+         this.carouselSlider.style.left = -this.items[0].offsetWidth * (item) + 'px';
+         this.dot[item].classList.add('active');
+         this.items[item].classList.add('active');
       }
    }
 
@@ -54,100 +83,36 @@ window.onload = function () {
    const next = document.querySelector('.next');
    const items = document.querySelectorAll('.item');
    const active = document.querySelector('.active');
+   const sliderClass = document.querySelector('.slider');
+   const carouselSlider = document.querySelector('.carousel-slider');
 
    const appearanceAnimation = function appearance() {
-      for (let i = 0; i < items.length; i++) {
-         items[i].style.transition = 'opacity 3s ease';
-      }
-      active.style.transition = 'opacity 3s ease';
+      sliderClass.classList.add('animationAppearance');
    }
 
-   const animation = function animaton2() {
-      for (let i = 0; i < items.length; i++) {
-         // items[i].style.transition = 'width 3s ease';
-         // items[i].style.width = '100%';
-      }
-      // active.style.transition = 'width 2s ease';
-      // active.style.width = '100%';
-      // active.style.left = '0';
+   const flippingAnimation = function flipping(qwe) {
+      sliderClass.classList.add('animationFlipping');
+      // this.items[this.i].classList.remove('active');
+      // this.dot[this.i].classList.remove('active');
+      // this.i += qwe;
+      // this.carouselSlider.style.left = -this.items[0].offsetWidth * (this.i) + 'px';
+      // if (this.i < 0) {
+      //    this.i = this.items.length - 1;
+      //    this.carouselSlider.style.left = -this.items[0].offsetWidth * this.items.length + this.items[0].offsetWidth + 'px';
+      // } else if (this.i >= this.items.length) {
+      //    this.i = 0;
+      //    this.carouselSlider.style.left = 0 + 'px';
+      // }
+      // this.dot[this.i].classList.add('active');
+      // this.items[this.i].classList.add('active');
    }
-
-
-   // скрыть
-   // imgs.eq(i).animate({
-   //    left: (sliderWidth * direction)
-   // }, rate).css({
-   //    left: 0,
-   // });
-
-   // i += direction;
-   // if (i < 0) {
-   //    i = imgs.length - 1;
-   // } else if (i >= imgs.length) {
-   //    i = 0;
-   // }
-
-   // // показать
-   // imgs.eq(i).css({
-   //    left: (-sliderWidth * direction),
-   //    width: "100%"
-   // }).animate({
-   //    left: 0,
-   // }, rate, function () {
-   //    isRun = false;
-   // });
 
    let slider = new Slider({
       items: items,
       butPrev: prev,
       butNext: next,
-      animation: animation,
+      animation: flippingAnimation,
       auto: false,
       interval: 3000
    });
-
-
-
-
-
-
-
-   // function Slider(obj) {
-   //    this.items = obj.items;
-   //    this.butPrev = obj.butPrev;
-   //    this.butNext = obj.butNext;
-   //    this.auto = obj.auto || false;
-   //    this.interval = obj.interval || 2000;
-   //    let i = 0;
-   //    let slider = this;
-   //    let stop = false;
-   //    this.prev = function () {
-   //       move(-1);
-   //    };
-   //    this.next = function () {
-   //       move(1);
-   //    };
-
-   //    function move(a) {
-   //       slider.items[i].classList.remove('active');
-   //       i += a;
-   //       if (i < 0) {
-   //          i = slider.items.length - 1;
-   //       } else if (i >= slider.items.length) {
-   //          i = 0;
-   //       }
-   //       slider.items[i].classList.add('active');
-   //    }
-
-   //    this.butPrev.addEventListener('click', slider.prev);
-   //    this.butNext.addEventListener('click', slider.next);
-   //    if (this.auto) {
-   //       setInterval(slider.next, slider.interval);
-   //    }
-   // }
-
-
-
-
-
 }

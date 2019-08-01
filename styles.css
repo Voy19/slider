@@ -3,26 +3,68 @@
   margin: 0;
 }
 
-.slider {
+.animationAppearance {
   position: relative;
-  width: 60%;
+  width: 700px;
   height: 400px;
   margin: 0 auto;
 }
 
-.slider .item {
-  width: 0;
+.animationAppearance .item {
   position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  -webkit-transition: opacity 2s ease;
+  transition: opacity 2s ease;
 }
 
-.slider .item img {
+.animationAppearance .item img {
   width: 100%;
   height: 100%;
 }
 
-.slider .active {
-  height: 100%;
+.animationAppearance .active {
+  opacity: 1;
+  -webkit-transition: opacity 2s ease;
+  transition: opacity 2s ease;
+}
+
+.animationFlipping {
+  width: 700px;
+  margin: auto;
+  overflow: hidden;
+}
+
+.animationFlipping .carousel-slider {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  left: 0;
+  width: 4200px;
+  height: 400px;
+  -webkit-transition: left 2s ease;
+  transition: left 2s ease;
+}
+
+.animationFlipping .item {
+  float: left;
+  width: 700px;
+  position: relative;
+  height: 500px;
+  -webkit-transition: left 2s ease;
+  transition: left 2s ease;
+}
+
+.animationFlipping .item img {
   width: 100%;
+  height: 100%;
+}
+
+.animationFlipping .active {
+  -webkit-transition: left 2s ease;
+  transition: left 2s ease;
 }
 
 .navigation {
@@ -43,5 +85,30 @@
 
 .navigation .prev {
   margin-right: 20px;
+}
+
+.dots {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-top: 30px;
+}
+
+.dots .dot {
+  cursor: pointer;
+  height: 13px;
+  width: 13px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dots .active,
+.dots .dot:hover {
+  background-color: #717171;
 }
 /*# sourceMappingURL=styles.css.map */
