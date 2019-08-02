@@ -8,14 +8,13 @@ class Slider {
       this.butNext = obj.butNext;
       this.dots = obj.dots;
       this.animation = obj.animation;
+      this.carouselSlider = obj.carouselSlider;
       this.slider.classList.add(this.animation);
       this.auto = obj.auto || false;
       this.interval = obj.interval || 2000;
       this.i = 0;
-      this.width = this.items[0].style.width;
       this.butPrev.addEventListener('click', this.prev.bind(this));
       this.butNext.addEventListener('click', this.next.bind(this));
-      this.carouselSlider = obj.carouselSlider;
       this.carouselSlider.style.width = this.slider.offsetWidth * this.items.length + 'px';
       if (this.items) {
          this.createDots();
@@ -95,7 +94,7 @@ let slider1 = new Slider({
    carouselSlider: carouselSlider1,
    slider: firstSlider,
    animation: 'animationFlipping',
-   auto: false,
+   auto: true,
    interval: 3000
 });
 
